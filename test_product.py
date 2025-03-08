@@ -21,7 +21,7 @@ class TestProduct:
         # Test initialization with negative price
         with pytest.raises(Exception) as e:
             Product("MacBook Air M2", -10, 100)
-        assert str(e.value) == "Price cannot not be negative!"
+        assert str(e.value) == "Price cannot be negative!"
 
     def test_init_negative_quantity(self):
         # Test initialization with negative quantity
@@ -69,7 +69,7 @@ class TestProduct:
             product.buy(6)
 
         # Verify correct exception message
-        assert str(e.value) == "Not enough items in stock!"
+        assert str(e.value) == "Not enough Test Product in stock!"
 
         # Verify quantity remained unchanged
         assert product.quantity == 5
