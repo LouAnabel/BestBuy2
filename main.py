@@ -1,4 +1,5 @@
 import products
+from products import NonStockedProduct, LimitedProduct
 from stores import Store
 from colorama import Fore, Style
 
@@ -9,6 +10,16 @@ product_list = [ products.Product("MacBook Air M2", price=1450, quantity=100),
                  products.NonStockedProduct("Windows License", price=125),
                  products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
                ]
+
+# Create promotion catalog
+second_half_price = products.SecondHalfPrice("Second Half price!")
+third_one_free = products.ThirdOneFree("Third One Free!")
+thirty_percent = products.PercentDiscount("30% off!", percent=30)
+
+# Add promotions to products
+product_list[0].set_promotion(second_half_price)
+product_list[1].set_promotion(third_one_free)
+product_list[3].set_promotion(thirty_percent)
 
 def start():
     print("\n-----------------")
@@ -51,7 +62,7 @@ def build_shopping_list(products):
                 continue
 
             # Check if product is in stock
-            if selected_product.get_quantity() <= 0:
+            if not isinstance(selected_product, NonStockedProduct) and selected_product.get_quantity() <= 0:
                 print(Fore.RED + f"Error: {selected_product.name} is out of stock" + Style.RESET_ALL)
                 continue
 
@@ -64,9 +75,17 @@ def build_shopping_list(products):
                         print(Fore.RED + "Error: Quantity must be at least 1" + Style.RESET_ALL)
                         continue
 
-                    if quantity > selected_product.get_quantity():
-                        print(Fore.RED + f"Error: Not enough stock. Only {selected_product.get_quantity()} available" + Style.RESET_ALL)
+                    # Check maximum limit for LimitedProduct
+                    if isinstance(selected_product, LimitedProduct) and quantity > selected_product.maximum:
+                        print(Fore.RED + f"Error: Cannot purchase more than {selected_product.maximum} of {selected_product.name} per order!" + Style.RESET_ALL)
                         continue
+
+                    # For regular products, check if enough quantity is available
+                    if not isinstance(selected_product, NonStockedProduct):
+                        if quantity > selected_product.get_quantity():
+                            print(
+                                Fore.RED + f"Error: Not enough stock. Only {selected_product.get_quantity()} available" + Style.RESET_ALL)
+                            continue
 
                     quantity_valid = True
 
@@ -104,6 +123,7 @@ def process_order(products, shopping_list):
     return total_price
 
 def main():
+
     while True:
         user_choice = start()
         best_buy = Store(product_list)
@@ -137,10 +157,7 @@ def main():
                 for product_nr, amount in shopping_list:
                     new_shopping_list.append((products[product_nr], amount))
 
-                # Use your best_buy.order(new_shopping_list) here
-                # Or use the process_order function:
                 process_order(products, shopping_list)
-                best_buy.order(new_shopping_list)
             continue
 
         if user_choice == "4":

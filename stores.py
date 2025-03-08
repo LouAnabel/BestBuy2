@@ -17,19 +17,5 @@ class Store:
     def get_all_products(self):
         return [product for product in self.products if product.active ]
 
-    def order(self, shopping_list):
-
-        total_price = 0
-        for product, quantity in shopping_list:
-            if product not in self.products:
-                raise Exception(f"Product {product.name} not available!")
-                continue
-
-            product.quantity -= quantity
-            total_price += float(product.price * quantity)
-            print(f"{quantity} * {product.name} for {product.price}€")
-
-        print(f"_____________________________________"
-                  f"\nTotal price: {total_price} €")
 
 
