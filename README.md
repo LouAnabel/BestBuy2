@@ -1,4 +1,4 @@
-# *Best Buy*
+# *Best Buy 2*
 
 This Python application simulates a store inventory management system. 
 It allows users to view available products, check total stock, and make orders from a product list. The code includes simple input validation and an interactive menu that guides the user through available actions.
