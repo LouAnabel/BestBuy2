@@ -67,6 +67,7 @@ class Product:
         self.active = True
         self.promotion = None  # Default: no promotion
 
+
     def get_quantity(self):
         return int(self.quantity)
 
