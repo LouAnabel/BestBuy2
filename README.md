@@ -5,21 +5,19 @@ It allows users to view available products, check total stock, and make orders f
 
 ### Features
 **List all products:** 
-Display a list of products available in the store with their price and quantity.
-Show total stock: Calculate and display the total quantity of all products in the store.
-Make an order: Users can select products, specify the quantity they want, and place an order.
++ Display a list of products available in the store with their price and quantity.
++ Show total stock: Calculate and display the total quantity of all products in the store.
++ Make an order with a **Flexible Promotion System:**
+
+*Percentage discounts*
++ "Buy 2, Get 1 Free" promotions
++ "Second item half price" deals
++ Easily extendable for custom promotion types: Users can select products, specify the quantity they want, and place an order.
+
 Exit the program: Quit the program and end the session.
 Requirements
 This application requires the following Python libraries:
 
-**colorama:** 
-Used to enhance terminal output with colored text.
-
-To install the necessary dependencies, run the following command:
-
-bash, 
-Kopieren, 
-pip install colorama, 
 
 **How to Use**
 Start the program: 
@@ -33,7 +31,7 @@ Displays the sum of quantities across all products.
 
 *3: Make an order*:
 Allows the user to select products and specify quantities for purchase. 
-Once the order is placed, the system processes it and updates the stock.
+Once the order is placed, the system processes it, displays the **total price** with all the discount and updates the stock.
 
 *4: Quit the program*
 Quit the program.
@@ -64,15 +62,35 @@ Store Menu
 3. Make an order
 4. Quit
 
-Please enter your choice by number (1-4): 1
-After choosing option 1, the program will display all the products:
+Please enter your choice by number (1-4): 3
 
-yaml
-Kopieren
-MacBook Air M2 - Price: $1450 - Stock: 100
-Bose QuietComfort Earbuds - Price: $250 - Stock: 500
-Google Pixel 7 - Price: $500 - Stock: 250
-The user can then choose to make an order by selecting products and quantities.
+Available Products:
+1. MacBook Air M2, Price: 1450, Quantity: 100, Promotion: Second Half price!
+2. Bose QuietComfort Earbuds, Price: 250, Quantity: 500, Promotion: Third One Free!
+3. Google Pixel 7, Price: 500, Quantity: 250
+4. Windows License, Price: 125, Quantity: Unlimited, Promotion: 30% off!
+5. Shipping, Price: 10, Quantity: 250, Limited to 1 per order
 
-Contributing
+
+Enter the number for the product (or press Enter to finish): 1
+What amount of MacBook Air M2 do you want? 20
+Added 20 x MacBook Air M2 to your cart
+
+Enter the number for the product (or press Enter to finish): 5
+What amount of Shipping do you want? 1
+Added 1 x Shipping to your cart
+
+Enter the number for the product (or press Enter to finish): 
+Order quit!
+
+-----------
+
+Order Summary:
+- 20 x MacBook Air M2: $21750.00
+- 1 x Shipping: $10.00
+
+Total Order Price: $21760.00
+ 
+
+**Contributing**
 Feel free to fork this project, make improvements, and submit pull requests. All contributions are welcome.
