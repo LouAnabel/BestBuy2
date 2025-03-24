@@ -16,7 +16,7 @@ def initialize_products():
 
 
 def initialize_promotions():
-    """Initialize and return the promotions dictionary"""
+    """Initialize and return the promotions as dictionary"""
     return {
         0: products.SecondHalfPrice("Second Half price!"),
         1: products.ThirdOneFree("Third One Free!"),
