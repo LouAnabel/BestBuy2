@@ -42,7 +42,7 @@ class PercentDiscount(Promotion):
 
     def __init__(self, name, percent):
         super().__init__(name)
-        if not 0 < percent < 100:
+        if not 0 <= percent <= 100:
             raise Exception("Percentage discount must be between 0 and 100!")
         self.percent = percent
 
@@ -53,13 +53,19 @@ class PercentDiscount(Promotion):
 
 # Products Module
 class Product:
+
     def __init__(self, name, price, quantity):
         if not name:
-            raise Exception("Product name cannot be empty!")
+            raise ValueError("Product name cannot be empty!")
         if price < 0:
-            raise Exception("Price cannot be negative!")
+            raise ValueError("Price cannot be negative!")
         if quantity < 0:
-            raise Exception("Quantity cannot be negative!")
+            raise ValueError("Quantity cannot be negative!")
+
+        try:
+            quantity = int(quantity)
+        except (ValueError, TypeError):
+            raise ValueError("Quantity must be a valid integer!")
 
         self.name = name
         self.price = price
@@ -72,6 +78,14 @@ class Product:
         return int(self.quantity)
 
     def set_quantity(self, quantity):
+        try:
+            quantity = int(quantity)
+        except (ValueError, TypeError):
+            raise ValueError("Quantity must be a valid integer!")
+
+        if quantity < 0:
+            raise ValueError("Quantity cannot be negative!")
+
         self.quantity = quantity
         if self.quantity <= 0:
             self.deactivate()
