@@ -158,31 +158,9 @@ def build_shopping_list(products_list):
 
         # Add to shopping list
         shopping_list.append((product_index, quantity))
-        print(f"Added {quantity} x {selected_product.name} to your cart")
+        print(Fore.BLUE + f"Added {quantity} x {selected_product.name} to your cart" + Style.RESET_ALL)
 
     return shopping_list
-
-
-def process_order(products_list, shopping_list):
-    """Process an order and display the summary"""
-    if not shopping_list:
-        print_error("No items in cart.")
-        return 0
-
-    total_price = 0
-    print("\nOrder Summary:")
-
-    for product_index, quantity in shopping_list:
-        product = products_list[product_index]
-        try:
-            item_price = product.buy(quantity)
-            total_price += item_price
-            print(f"- {quantity} x {product.name}: ${item_price:.2f}")
-        except Exception as e:
-            print_error(f"Could not process {product.name}: {str(e)}")
-
-    print(f"\nTotal Order Price: ${total_price:.2f}")
-    return total_price
 
 
 def list_available_products(products_list):
@@ -203,19 +181,30 @@ def handle_list_products(products_list):
 def handle_show_total(store):
     """Handle the show total quantity menu option"""
     print(" ")
-    print(store.get_total_quantity())
+    print(Fore.GREEN + f"{store.get_total_quantity()}" + Style.RESET_ALL)
 
 
-def handle_make_order(products_list):
+def process_order(store, products_list):
     """Handle the make order menu option"""
-    list_available_products(products_list)
+    # Get most current list of active products
+    active_products = store.get_all_products()
+    list_available_products(active_products)
 
-    # Build the shopping list
-    shopping_list = build_shopping_list(products_list)
+    # Build the shopping list based on the active products
+    shopping_list = build_shopping_list(active_products)
 
-    # Process the order
-    if shopping_list:
-        process_order(products_list, shopping_list)
+    if not shopping_list:
+        print_error("No items in cart.")
+        return
+
+    # Convert indices to products from the active products list
+    product_shopping_list = [(active_products[idx], qty) for idx, qty in shopping_list]
+
+    # Process the order using the store's order method
+    try:
+        store.order(product_shopping_list)
+    except Exception as e:
+        print(Fore.RED + f"Error processing order: {str(e)}" + Style.RESET_ALL)
 
 
 def main():
@@ -224,6 +213,8 @@ def main():
 
     while True:
         user_choice = display_menu()
+
+        # Get the most current list of active products
         products_list = best_buy.get_all_products()
 
         if user_choice == "1":
@@ -233,7 +224,7 @@ def main():
             handle_show_total(best_buy)
 
         elif user_choice == "3":
-            handle_make_order(products_list)
+            process_order(best_buy, products_list)
 
         elif user_choice == "4":
             print("Goodbye")

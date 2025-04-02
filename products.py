@@ -112,18 +112,20 @@ class Product:
         self.promotion = None
 
     def show(self):
+        """Display the products with promotion"""
         if self.promotion:
             return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self.promotion.name}"
         else:
             return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def buy(self, quantity):
+        """Checks product availability and then processes the order"""
         if quantity <= 0:
             raise Exception("Quantity to buy must be at least 1!")
         if quantity > self.quantity:
             raise Exception(f"Not enough {self.name} in stock!")
         if not self.active:
-            raise Exception(f"Product {self.name} is not active!")
+            raise Exception(f"Product {self.name} is not available!")
 
         # Calculate price with promotion if applicable
         if self.promotion:
