@@ -87,21 +87,6 @@ def get_product_number(products_list):
         return None, False  # Return None and a flag indicating to continue
 
 
-def validate_product_availability(product):
-    """Validate if a product is available for purchase"""
-    # Check if product is active
-    if not product.is_active():
-        print_error(f"Error: {product.name} is not available")
-        return False
-
-    # Check if product is in stock
-    if not isinstance(product, NonStockedProduct) and product.get_quantity() <= 0:
-        print_error(f"Error: {product.name} is out of stock")
-        return False
-
-    return True
-
-
 def get_valid_quantity(product, is_limited=False, maximum=0):
     """Get a valid quantity from user input"""
     while True:
@@ -146,10 +131,6 @@ def build_shopping_list(products_list):
 
         # Get the selected product
         selected_product = products_list[product_index]
-
-        # Validate product availability
-        if not validate_product_availability(selected_product):
-            continue
 
         # Get quantity for the selected product
         is_limited = isinstance(selected_product, LimitedProduct)
